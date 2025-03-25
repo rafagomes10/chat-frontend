@@ -39,7 +39,7 @@ export default function ChatBox() {
                 }`}
             >
               {message.user !== currentUser && message.user !== 'Sistema' && (
-                <div className="font-bold text-sm">{message.user}</div>
+                <div className="font-bold text-md">{message.user}</div>
               )}
               <p>{message.text}</p>
               <div className="text-xs opacity-70 text-right mt-1">{message.time}</div>
