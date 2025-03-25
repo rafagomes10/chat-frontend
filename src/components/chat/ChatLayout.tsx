@@ -1,6 +1,6 @@
 'use client';
 
-import { useChat } from '../context/ChatContext';
+import { useChat } from '@/context/ChatContext';
 import ChatBox from './ChatBox';
 import UserList from './UserList';
 import LoginForm from '../login/LoginForm';

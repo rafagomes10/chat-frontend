@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useChat } from '../context/ChatContext';
+import { useChat } from '@/context/ChatContext';
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');

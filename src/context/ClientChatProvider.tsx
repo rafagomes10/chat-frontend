@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 
 // Use dynamic import to avoid SSR issues with socket.io
 const ChatProviderWithNoSSR = dynamic(
-  () => import('@/components/context/ChatProvider'),
+  () => import('@/context/ChatProvider'),
   { ssr: false }
 );
 
