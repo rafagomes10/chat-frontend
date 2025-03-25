@@ -29,7 +29,7 @@ export default function ChatLayout() {
       </div>
       <div className="w-full md:w-2/4 h-1/4 md:h-screen p-4 overflow-y-auto border-l">
         <div>
-        <PieChart />
+          <PieChart />
         </div>
         <UserList />
       </div>

@@ -15,7 +15,6 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<string>('');
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  // Inicializar socket
   useEffect(() => {
     const newSocket = io(SOCKET_SERVER_URL);
     setSocket(newSocket);
@@ -25,27 +24,28 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  // Configurar listeners do socket
   useEffect(() => {
     if (!socket) return;
 
-    // Receber mensagens
     socket.on('message', (message: Message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
-    // Atualizar lista de usuários
+    socket.on('message-history', (messageHistory: Message[]) => {
+      setMessages(messageHistory);
+    });
+
     socket.on('update-users', (updatedUsers: string[]) => {
       setUsers(updatedUsers);
     });
 
     return () => {
       socket.off('message');
+      socket.off('message-history');
       socket.off('update-users');
     };
   }, [socket]);
 
-  // Função para login
   const login = (username: string) => {
     if (socket && username.trim()) {
       setCurrentUser(username);
@@ -54,7 +54,6 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Função para enviar mensagem
   const sendMessage = (message: string) => {
     if (socket && message.trim() && isLoggedIn) {
       socket.emit('send-message', message);
