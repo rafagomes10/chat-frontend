@@ -10,14 +10,14 @@ export default function ChatLayout() {
 
   if (!isLoggedIn) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="flex items-center justify-center min-h-screen bg-gray-800">
         <LoginForm />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-800">
       <div className="w-full md:w-3/4 h-3/4 md:h-screen flex flex-col">
         <header className="bg-green-500 text-white p-4">
           <h1 className="text-xl font-bold">Chat em Tempo Real</h1>

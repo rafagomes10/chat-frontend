@@ -13,8 +13,8 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center text-gray-800">Entre no Chat</h2>
+    <div className="w-full max-w-md p-8 space-y-6 bg-gray-500 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-center text-white">Entre no Chat</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <input
