@@ -4,6 +4,7 @@ import { useChat } from '@/context/ChatContext';
 import ChatBox from './ChatBox';
 import UserList from '../userList/UserList';
 import LoginForm from '../login/LoginForm';
+import PieChart from '../graphic/PieChart';
 
 export default function ChatLayout() {
   const { isLoggedIn } = useChat();
@@ -27,6 +28,9 @@ export default function ChatLayout() {
         </div>
       </div>
       <div className="w-full md:w-2/4 h-1/4 md:h-screen p-4 overflow-y-auto border-l">
+        <div>
+        <PieChart />
+        </div>
         <UserList />
       </div>
     </div>
