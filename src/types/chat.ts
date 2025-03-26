@@ -1,3 +1,5 @@
+import { Socket } from "socket.io-client";
+
 export interface Message {
   user: string;
   text: string;
@@ -5,6 +7,7 @@ export interface Message {
 }
 
 export interface ChatContextType {
+  socket: Socket | null;
   messages: Message[];
   users: string[];
   currentUser: string;

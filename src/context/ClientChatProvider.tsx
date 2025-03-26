@@ -9,6 +9,17 @@ const ChatProviderWithNoSSR = dynamic(
   { ssr: false }
 );
 
+const TicTacToeProviderWithNoSSR = dynamic(
+  () => import('@/context/TicTacToeProvider'),
+  { ssr: false }
+);
+
 export default function ClientChatProvider({ children }: { children: ReactNode }) {
-  return <ChatProviderWithNoSSR>{children}</ChatProviderWithNoSSR>;
+  return (
+    <ChatProviderWithNoSSR>
+      <TicTacToeProviderWithNoSSR>
+        {children}
+      </TicTacToeProviderWithNoSSR>
+    </ChatProviderWithNoSSR>
+  );
 }
