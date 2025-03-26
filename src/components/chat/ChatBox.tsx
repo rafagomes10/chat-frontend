@@ -33,7 +33,7 @@ export default function ChatBox() {
               className={`max-w-[70%] rounded-lg px-4 py-2 ${message.user === 'Sistema'
                 ? 'bg-gray-200 text-gray-800'
                 : message.user === currentUser
-                  ? 'bg-green-500 text-white'
+                  ? 'bg-green-600 text-white'
                   : 'bg-blue-500 text-white'
                 }`}
             >
@@ -54,11 +54,11 @@ export default function ChatBox() {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Digite sua mensagem..."
-          className="flex-1 px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="flex-1 px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-600"
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-green-500 text-white rounded-r-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="px-4 py-2 bg-green-600 text-white rounded-r-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600"
         >
           Enviar
         </button>

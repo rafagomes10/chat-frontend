@@ -22,13 +22,13 @@ export default function LoginForm() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Seu nome"
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
             required
           />
         </div>
         <button
           type="submit"
-          className="w-full px-4 py-2 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="w-full px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
         >
           Entrar
         </button>
