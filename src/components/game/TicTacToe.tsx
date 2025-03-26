@@ -21,7 +21,9 @@ export default function TicTacToe() {
     return (
       <button
         className={`w-20 h-20 bg-white border border-gray-300 text-3xl font-bold flex items-center justify-center
-          ${currentPlayer === currentUser && gameBoard[index] === null ? 'hover:bg-gray-100 cursor-pointer' : ''}`}
+          ${currentPlayer === currentUser && gameBoard[index] === null ? 'hover:bg-gray-100 cursor-pointer' : ''}
+          ${gameBoard[index] === 'X' ? 'text-red-600' : ''}
+          ${gameBoard[index] === 'O' ? 'text-blue-600' : ''}`}
         onClick={() => makeMove(index)}
         disabled={currentPlayer !== currentUser || gameBoard[index] !== null}
       >

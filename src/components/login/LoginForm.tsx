@@ -23,6 +23,7 @@ export default function LoginForm() {
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Seu nome"
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+            maxLength={10}
             required
           />
         </div>
