@@ -4,8 +4,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { io, Socket } from 'socket.io-client';
 import { Message, ChatContextType } from '@/types/chat';
 
-const SOCKET_SERVER_URL = 'http://localhost:4000';
-//const SOCKET_SERVER_URL = 'https://chat-backend-6r2a.onrender.com';
+//const SOCKET_SERVER_URL = 'http://localhost:4000';
+const SOCKET_SERVER_URL = 'https://chat-backend-6r2a.onrender.com';
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 export const ChatProvider = ({ children }: { children: ReactNode }) => {
