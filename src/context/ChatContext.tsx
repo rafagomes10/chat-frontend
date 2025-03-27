@@ -4,8 +4,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { io, Socket } from 'socket.io-client';
 import { Message, ChatContextType } from '@/types/chat';
 
-//const SOCKET_SERVER_URL = 'http://localhost:4000';
-const SOCKET_SERVER_URL = 'https://chat-backend-6r2a.onrender.com';
+const SOCKET_SERVER_URL = 'http://localhost:4000';
+//const SOCKET_SERVER_URL = 'https://chat-backend-6r2a.onrender.com';
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 export const ChatProvider = ({ children }: { children: ReactNode }) => {
@@ -14,6 +14,7 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
   const [users, setUsers] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useState<string>('');
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   useEffect(() => {
     const newSocket = io(SOCKET_SERVER_URL);
@@ -49,19 +50,43 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
       setUsers(updatedUsers);
     });
 
+    // Add handlers for login success and error
+    socket.on('login-success', () => {
+      setLoginError(null);
+      setIsLoggedIn(true);
+    });
+
+    socket.on('login-error', (error: string) => {
+      setLoginError(error);
+      setCurrentUser('');
+    });
+
     return () => {
       socket.off('message');
       socket.off('message-history');
       socket.off('update-users');
+      socket.off('login-success');
+      socket.off('login-error');
     };
   }, [socket]);
 
   const login = (username: string) => {
     if (socket && username.trim()) {
+      setLoginError(null); // Clear any previous errors
       setCurrentUser(username);
-      setIsLoggedIn(true);
       socket.emit('user-join', username);
     }
+  };
+
+  const logout = () => {
+    if (socket) {
+      socket.disconnect();
+      socket.connect(); // Reconnect without user
+    }
+    
+    setCurrentUser('');
+    setIsLoggedIn(false);
+    setMessages([]);
   };
 
   const sendMessage = (message: string) => {
@@ -76,7 +101,9 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     users,
     currentUser,
     isLoggedIn,
+    loginError,
     login,
+    logout,
     sendMessage,
   };
 

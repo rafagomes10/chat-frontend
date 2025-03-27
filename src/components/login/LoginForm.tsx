@@ -5,16 +5,25 @@ import { useChat } from '@/context/ChatContext';
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
-  const { login } = useChat();
+  const { login, loginError } = useChat();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    login(username);
+    if (username.trim()) {
+      login(username);
+    }
   };
 
   return (
     <div className="w-full max-w-md p-8 space-y-6 bg-gray-500 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-center text-white">Entre no Chat</h2>
+      
+      {loginError && (
+        <div className="p-3 mb-4 text-sm text-red-800 bg-red-100 rounded-md">
+          <p>{loginError}</p>
+        </div>
+      )}
+      
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <input

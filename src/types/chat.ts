@@ -12,6 +12,8 @@ export interface ChatContextType {
   users: string[];
   currentUser: string;
   isLoggedIn: boolean;
+  loginError: string | null;
   login: (username: string) => void;
+  logout: () => void;
   sendMessage: (message: string) => void;
 }
