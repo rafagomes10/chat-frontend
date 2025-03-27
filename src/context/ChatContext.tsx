@@ -4,8 +4,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { io, Socket } from 'socket.io-client';
 import { Message, ChatContextType } from '@/types/chat';
 
-const SOCKET_SERVER_URL = 'http://localhost:4000'; //vou testar em localhost por enquanto
-// const SOCKET_SERVER_URL = 'https://chat-backend-6r2a.onrender.com';
+//const SOCKET_SERVER_URL = 'http://localhost:4000';
+const SOCKET_SERVER_URL = 'https://chat-backend-6r2a.onrender.com';
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 export const ChatProvider = ({ children }: { children: ReactNode }) => {
@@ -18,13 +18,13 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const newSocket = io(SOCKET_SERVER_URL);
     setSocket(newSocket);
-    
+
     console.log('Socket initialized, attempting connection to:', SOCKET_SERVER_URL);
-    
+
     newSocket.on('connect', () => {
       console.log('Socket connected successfully');
     });
-    
+
     newSocket.on('connect_error', (error) => {
       console.error('Socket connection error:', error);
     });

@@ -6,12 +6,20 @@ import { useTicTacToe } from '@/context/TicTacToeContext';
 
 export default function UserList() {
   const { users, currentUser } = useChat();
-  const { inviteToGame, pendingInvitation, acceptGameInvitation, declineGameInvitation } = useTicTacToe();
+  const {
+    inviteToGame,
+    pendingInvitation,
+    acceptGameInvitation,
+    declineGameInvitation,
+    gameActive,
+    playersInGame
+  } = useTicTacToe();
+
   const [hoveredUser, setHoveredUser] = useState<string | null>(null);
   const [inviteSent, setInviteSent] = useState<string | null>(null);
   const [showInvitation, setShowInvitation] = useState<boolean>(false);
+  const [inviteCooldown, setInviteCooldown] = useState<boolean>(false);
 
-  // Effect to handle the pending invitation timeout
   useEffect(() => {
     if (pendingInvitation) {
       setShowInvitation(true);
@@ -21,7 +29,6 @@ export default function UserList() {
         declineGameInvitation();
       }, 5000);
 
-      // Clear timeout if component unmounts or invitation changes
       return () => clearTimeout(timer);
     } else {
       setShowInvitation(false);
@@ -29,12 +36,43 @@ export default function UserList() {
   }, [pendingInvitation, declineGameInvitation]);
 
   const handleInvite = (user: string) => {
+    if (playersInGame.includes(user)) {
+      console.log(`Cannot invite ${user} because they are already playing`);
+      return;
+    }
+
+    if (!canInviteUser(user)) {
+      console.log(`Cannot invite ${user} due to other restrictions`);
+      return;
+    }
+
     inviteToGame(user);
     setInviteSent(user);
+
+    setInviteCooldown(true);
 
     setTimeout(() => {
       setInviteSent(null);
     }, 5000);
+
+    setTimeout(() => {
+      setInviteCooldown(false);
+    }, 5000);
+  };
+
+  const canInviteUser = (user: string) => {
+    if (user === currentUser) return false;
+
+    if (inviteCooldown) return false;
+
+    if (gameActive) return false;
+
+    if (playersInGame.includes(user)) {
+      console.log(`${user} is in game and cannot be invited`);
+      return false;
+    }
+
+    return true;
   };
 
   return (
@@ -62,33 +100,43 @@ export default function UserList() {
       )}
 
       <ul className="space-y-2">
-        {users.map((user, index) => (
-          <li
-            key={index}
-            className={`px-3 py-2 rounded text-black ${user === currentUser ? 'bg-green-200 font-bold' : 'bg-white'} relative`}
-            onMouseEnter={() => user !== currentUser && setHoveredUser(user)}
-            onMouseLeave={() => setHoveredUser(null)}
-          >
-            <div className="flex justify-between items-center">
-              <span>{user} {user === currentUser && '(você)'}</span>
+        {users.map((user, index) => {
+          // Verificação explícita se o usuário está jogando
+          const isPlaying = playersInGame.includes(user);
 
-              {user !== currentUser && (hoveredUser === user || inviteSent === user) && (
-                <div>
-                  {inviteSent === user ? (
-                    <span className="text-sm text-green-600">Convite enviado</span>
-                  ) : (
-                    <button
-                      onClick={() => handleInvite(user)}
-                      className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
-                    >
-                      Convidar
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          </li>
-        ))}
+          return (
+            <li
+              key={index}
+              className={`px-3 py-2 rounded text-black ${user === currentUser ? 'bg-green-200 font-bold' : isPlaying ? 'bg-yellow-100' : 'bg-white'} relative`}
+              onMouseEnter={() => user !== currentUser && setHoveredUser(user)}
+              onMouseLeave={() => setHoveredUser(null)}
+            >
+              <div className="flex justify-between items-center">
+                <span>
+                  {user} {user === currentUser && '(você)'}
+                  {isPlaying && ' (jogando)'}
+                </span>
+
+                {!isPlaying && user !== currentUser && (hoveredUser === user || inviteSent === user) && !gameActive && (
+                  <div>
+                    {inviteSent === user ? (
+                      <span className="text-sm text-green-600">Convite enviado</span>
+                    ) : (
+                      <button
+                        onClick={() => handleInvite(user)}
+                        className={`px-3 py-1 text-white rounded text-sm ${inviteCooldown ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                          }`}
+                        disabled={inviteCooldown}
+                      >
+                        Convidar
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

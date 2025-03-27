@@ -6,6 +6,7 @@ export interface TicTacToeContextType {
   opponent: string;
   gameResult: string | null;
   pendingInvitation: string | null;
+  playersInGame: string[];
   inviteToGame: (opponent: string) => void;
   acceptGameInvitation: () => void;
   declineGameInvitation: () => void;
