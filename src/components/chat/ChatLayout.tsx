@@ -7,6 +7,7 @@ import UserList from '../userList/UserList';
 import LoginForm from '../login/LoginForm';
 import PieChart from '../graphic/PieChart';
 import TicTacToe from '../game/TicTacToe';
+import BackgroundAnimation from '../animation/BackgroundAnimation';
 
 export default function ChatLayout() {
   const { isLoggedIn, logout, currentUser } = useChat();
@@ -14,7 +15,8 @@ export default function ChatLayout() {
 
   if (!isLoggedIn) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-800">
+      <div className="flex items-center justify-center min-h-screen relative overflow-hidden">
+        <BackgroundAnimation />
         <LoginForm />
       </div>
     );
@@ -46,7 +48,6 @@ export default function ChatLayout() {
           </div>
         )}
       </div>
-
       <div className="w-full md:w-2/4 h-1/4 md:h-screen p-4 overflow-y-auto border-l">
         <div>
           <PieChart />
