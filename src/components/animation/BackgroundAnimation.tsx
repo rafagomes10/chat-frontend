@@ -6,13 +6,12 @@ import { loadSlim } from 'tsparticles-slim';
 import type { Engine } from 'tsparticles-engine';
 
 export default function BackgroundAnimation() {
-  const [currentEffect, setCurrentEffect] = useState('galaxy');
+  const [currentEffect, setCurrentEffect] = useState('meteor');
 
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
 
-  // Efeito de Galáxia com Nebulosa
   const galaxyConfig = {
     fullScreen: {
       enable: false,
@@ -53,7 +52,6 @@ export default function BackgroundAnimation() {
     }
   };
 
-  // Efeito de Chuva de Meteoros
   const meteorConfig = {
     fullScreen: {
       enable: false,
@@ -96,7 +94,6 @@ export default function BackgroundAnimation() {
     }
   };
 
-  // Efeito Aurora Boreal
   const auroraConfig = {
     fullScreen: {
       enable: false,
@@ -139,9 +136,8 @@ export default function BackgroundAnimation() {
     }
   };
 
-  // Sistema de transição entre efeitos
   useEffect(() => {
-    const effects = ['galaxy', 'meteor', 'aurora'];
+    const effects = ['meteor', 'galaxy', 'aurora'];
     let currentIndex = 0;
 
     const intervalId = setInterval(() => {
@@ -152,7 +148,6 @@ export default function BackgroundAnimation() {
     return () => clearInterval(intervalId);
   }, []);
 
-  // Seleciona a configuração atual
   const getCurrentConfig = () => {
     switch (currentEffect) {
       case 'meteor':
