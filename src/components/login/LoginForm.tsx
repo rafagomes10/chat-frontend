@@ -15,7 +15,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-6 bg-[#1a1b3b]/30 backdrop-blur-md rounded-lg shadow-lg border border-white/20">
+    <div className="w-full max-w-md p-8 space-y-6 bg-[#1a1b3b]/30 backdrop-blur-md rounded-lg shadow-lg border border-white/20 z-10">
       <h2 className="text-2xl font-bold text-center text-white">Entre no Chat</h2>
 
       {loginError && (

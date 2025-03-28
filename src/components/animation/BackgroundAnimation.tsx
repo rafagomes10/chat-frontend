@@ -4,9 +4,11 @@ import { useCallback, useState, useEffect } from 'react';
 import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
 import type { Engine } from 'tsparticles-engine';
+import Rocket from './Rocket';
 
 export default function BackgroundAnimation() {
   const [currentEffect, setCurrentEffect] = useState('meteor');
+  const [showRocket, setShowRocket] = useState(false);
 
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
@@ -139,12 +141,32 @@ export default function BackgroundAnimation() {
   useEffect(() => {
     const effects = ['meteor', 'galaxy', 'aurora'];
     let currentIndex = 0;
-
+  
     const intervalId = setInterval(() => {
       currentIndex = (currentIndex + 1) % effects.length;
-      setCurrentEffect(effects[currentIndex]);
+      const newEffect = effects[currentIndex];
+      setCurrentEffect(newEffect);
+      
+      // Mostrar o foguete apenas quando o efeito for meteor
+      if (newEffect === 'meteor') {
+        setShowRocket(true);
+        
+        // Esconder o foguete após a animação terminar
+        const rocketTimeout = setTimeout(() => {
+          setShowRocket(false);
+        }, 8000);
+        
+        return () => clearTimeout(rocketTimeout);
+      } else {
+        setShowRocket(false);
+      }
     }, 10000);
-
+  
+    // Verificar se o efeito inicial é meteor para mostrar o foguete
+    if (currentEffect === 'meteor') {
+      setShowRocket(true);
+    }
+  
     return () => clearInterval(intervalId);
   }, []);
 
@@ -160,11 +182,14 @@ export default function BackgroundAnimation() {
   };
 
   return (
-    <Particles
-      id="tsparticles"
-      init={particlesInit}
-      options={getCurrentConfig()}
-      className="absolute inset-0 z-0"
-    />
+    <div>
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        options={getCurrentConfig()}
+        className="absolute inset-0 z-0"
+      />
+      {showRocket && <Rocket />}
+    </div>
   );
 }
